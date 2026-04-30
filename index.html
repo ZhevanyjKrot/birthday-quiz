@@ -8,6 +8,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="questions.js"></script>
 <style>
 :root {
   --bg: #0f0f14;
@@ -701,23 +702,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const DEFAULT_Q = [
-  {text:"Какое любимое блюдо именинника?",options:["Пельмени","Пицца","Суши","Борщ"],correct:0},
-  {text:"Какой музыкальный жанр он/она предпочитает?",options:["Рок","Поп","Джаз","Хип-хоп"],correct:1},
-  {text:"Куда он/она мечтает поехать?",options:["Япония","Италия","США","Австралия"],correct:0},
-  {text:"Какое у него/неё хобби?",options:["Рыбалка","Рисование","Спорт","Кулинария"],correct:2},
-  {text:"Как проводит свободное время чаще всего?",options:["Читает книги","Смотрит сериалы","Гуляет","Играет в игры"],correct:1},
-  {text:"Какой фильм готов пересматривать бесконечно?",options:["Интерстеллар","Титаник","Матрица","Форрест Гамп"],correct:0},
-  {text:"Какой домашний питомец ему/ей нравится больше?",options:["Кот","Собака","Попугай","Никакой"],correct:1},
-  {text:"Во сколько обычно просыпается в выходной?",options:["До 8 утра","8–10 утра","10–12","После полудня"],correct:2},
-  {text:"Какой напиток заказывает в кафе?",options:["Капучино","Чай","Латте","Сок"],correct:0},
-  {text:"Как лучше провести вечер пятницы?",options:["Вечеринка с друзьями","Уютный вечер дома","Кино","Ресторан"],correct:3},
-  {text:"Какой сезон его/её любимый?",options:["Весна","Лето","Осень","Зима"],correct:1},
-  {text:"Что он/она никогда не ест?",options:["Грибы","Оливки","Острое","Рыбу"],correct:2},
-  {text:"Какой вид спорта нравится смотреть?",options:["Футбол","Теннис","Хоккей","Не смотрит"],correct:0},
-  {text:"Что он/она возьмёт на необитаемый остров?",options:["Книгу","Телефон","Гитару","Удочку"],correct:1},
-  {text:"Какое у него/неё тайное умение?",options:["Хорошо поёт","Умеет рисовать","Классно танцует","Мастер шахмат"],correct:0},
-];
+
 
 let editQ = JSON.parse(JSON.stringify(DEFAULT_Q));
 let session = { quizId: null, isBirthday: false, playerName: null, currentQ: 0, answers: [], quiz: null };

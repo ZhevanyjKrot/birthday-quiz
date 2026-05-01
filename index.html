@@ -478,6 +478,91 @@ input[type=text]:focus { border-color: var(--accent); }
 .live-chip.done { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.1); }
 
 .setup-steps { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+
+/* ── HOST MODE ── */
+.host-q-card {
+  background: var(--surface);
+  border: 1px solid rgba(107,202,255,0.25);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.host-q-num {
+  font-family: var(--font-head);
+  font-size: 11px;
+  color: var(--accent3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.host-q-text {
+  font-family: var(--font-head);
+  font-size: clamp(18px, 5vw, 26px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+.host-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+.host-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.host-opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(107,202,255,0.1);
+  border: 1px solid rgba(107,202,255,0.3);
+  color: var(--accent3);
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.host-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.host-counter {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.finished-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1rem 0;
+}
+.finished-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
 .step-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -513,6 +598,7 @@ input[type=text]:focus { border-color: var(--accent); }
       <button class="btn btn-gold" onclick="go('screen-birthday-entry')">🎁 Я — именинник</button>
       <button class="btn btn-blue" onclick="go('screen-guest-entry')">👥 Я — гость</button>
       <button class="btn btn-outline" onclick="go('screen-results-entry')">📊 Результаты викторины</button>
+      <button class="btn btn-outline" onclick="go('screen-host-entry')" style="border-color:rgba(107,202,255,0.3);color:#6bcaff">🎤 Режим ведущего</button>
     </div>
   </div>
 </div>
@@ -685,6 +771,63 @@ input[type=text]:focus { border-color: var(--accent); }
   </div>
   <div id="tab-content-scores"></div>
   <div id="tab-content-detail" style="display:none"></div>
+</div>
+
+<!-- ══════════ HOST ENTRY ══════════ -->
+<div id="screen-host-entry" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="go('screen-home')">←</button>
+    <div class="screen-title">Режим ведущего</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div class="card">
+      <div class="field-label">ID викторины</div>
+      <input type="text" id="host-quiz-id" placeholder="Например: anton2025" />
+      <button class="btn" style="background:linear-gradient(135deg,var(--accent3),#4a90e2);color:#001a2a;font-weight:700;padding:14px;border-radius:var(--radius);border:none;font-size:15px;cursor:pointer" onclick="startHostMode()">Открыть на большом экране →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HOST QUIZ SCREEN ══════════ -->
+<div id="screen-host-quiz" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="go('screen-home')">←</button>
+    <div class="screen-title" id="host-title">Викторина</div>
+  </div>
+  <div class="host-q-card" id="host-q-card">
+    <div class="host-q-num" id="host-q-num">ВОПРОС 1 ИЗ 15</div>
+    <div class="host-q-text" id="host-q-text">Загрузка...</div>
+    <div class="host-options" id="host-options"></div>
+  </div>
+  <div class="host-nav">
+    <button class="btn btn-outline" id="host-prev-btn" onclick="hostPrev()" style="width:auto;padding:10px 20px">← Назад</button>
+    <div class="host-counter" id="host-counter">1 / 15</div>
+    <button class="btn" id="host-next-btn" onclick="hostNext()" style="background:linear-gradient(135deg,var(--accent3),#4a90e2);color:#001a2a;font-weight:700;padding:10px 20px;border-radius:12px;border:none;font-size:14px;cursor:pointer;width:auto">Далее →</button>
+  </div>
+</div>
+
+<!-- ══════════ HOST FINAL SCREEN ══════════ -->
+<div id="screen-host-final" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="go('screen-home')">←</button>
+    <div class="screen-title">Финал</div>
+  </div>
+  <div class="card" style="text-align:center">
+    <div style="font-size:32px;margin-bottom:0.5rem">🎉</div>
+    <div style="font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:4px">Все вопросы показаны!</div>
+    <div style="font-size:13px;color:var(--muted)">Дождитесь пока все гости ответят</div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+    <div style="font-size:14px;font-weight:700">Уже ответили:</div>
+    <button class="btn btn-outline" style="width:auto;padding:7px 16px;font-size:13px" onclick="refreshFinished()">🔄 Обновить</button>
+  </div>
+  <div class="finished-list" id="finished-list">
+    <div style="color:var(--muted);font-size:13px">Загрузка...</div>
+  </div>
+
+  <div style="flex:1"></div>
+  <button class="btn btn-primary" style="margin-top:1rem" onclick="hostShowResults()">🏆 Показать результаты</button>
 </div>
 
 <div id="notify"></div>
@@ -1064,6 +1207,93 @@ function switchTab(t) {
   document.getElementById('tab-scores').className = 'tab-btn'+(t==='scores'?' active':'');
   document.getElementById('tab-detail').className = 'tab-btn'+(t==='detail'?' active':'');
   if (t==='detail') renderResults();
+}
+
+// ── HOST MODE ──
+let hostSession = { quiz: null, quizId: null, currentQ: 0 };
+
+async function startHostMode() {
+  const id = document.getElementById('host-quiz-id').value.trim().toLowerCase();
+  if (!id) { notify('Введите ID викторины'); return; }
+  try {
+    const snap = await db.ref(`quizzes/${id}`).get();
+    if (!snap.exists()) { notify('Викторина не найдена'); return; }
+    hostSession.quiz = snap.val();
+    hostSession.quizId = id;
+    hostSession.currentQ = 0;
+    // Also set session.quizId for results
+    session.quizId = id;
+    session.quiz = snap.val();
+    renderHostQ();
+    go('screen-host-quiz');
+  } catch(e) { notify('Ошибка: ' + e.message); }
+}
+
+function renderHostQ() {
+  const q = hostSession.quiz.questions[hostSession.currentQ];
+  const total = hostSession.quiz.questions.length;
+  const letters = ['А','Б','В','Г'];
+
+  document.getElementById('host-title').textContent = hostSession.quiz.name;
+  document.getElementById('host-q-num').textContent = `ВОПРОС ${hostSession.currentQ + 1} ИЗ ${total}`;
+  document.getElementById('host-q-text').textContent = q.text;
+  document.getElementById('host-counter').textContent = `${hostSession.currentQ + 1} / ${total}`;
+
+  document.getElementById('host-options').innerHTML = q.options.map((opt, i) => `
+    <div class="host-opt">
+      <span class="host-opt-letter">${letters[i]}</span>
+      ${opt}
+    </div>`).join('');
+
+  // Prev button
+  document.getElementById('host-prev-btn').style.visibility = hostSession.currentQ === 0 ? 'hidden' : 'visible';
+
+  // Next button text
+  const nextBtn = document.getElementById('host-next-btn');
+  if (hostSession.currentQ === total - 1) {
+    nextBtn.textContent = 'Финал 🎉';
+  } else {
+    nextBtn.textContent = 'Далее →';
+  }
+}
+
+function hostNext() {
+  const total = hostSession.quiz.questions.length;
+  if (hostSession.currentQ < total - 1) {
+    hostSession.currentQ++;
+    renderHostQ();
+  } else {
+    // Go to final screen
+    go('screen-host-final');
+    refreshFinished();
+  }
+}
+
+function hostPrev() {
+  if (hostSession.currentQ > 0) {
+    hostSession.currentQ--;
+    renderHostQ();
+  }
+}
+
+async function refreshFinished() {
+  const id = hostSession.quizId || session.quizId;
+  if (!id) return;
+  try {
+    const snap = await db.ref(`sessions/${id}`).get();
+    const data = snap.val() || {};
+    const guests = Object.values(data).filter(p => !p.isBirthday && p.done);
+    const el = document.getElementById('finished-list');
+    if (guests.length === 0) {
+      el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Пока никто не ответил</div>';
+    } else {
+      el.innerHTML = guests.map(p => `<div class="finished-chip">${p.name}</div>`).join('');
+    }
+  } catch(e) { notify('Ошибка: ' + e.message); }
+}
+
+function hostShowResults() {
+  go('screen-results');
 }
 </script>
 </body>

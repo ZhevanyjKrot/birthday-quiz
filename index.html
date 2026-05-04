@@ -24,601 +24,130 @@
   --font-head: 'Unbounded', sans-serif;
   --font-body: 'Nunito', sans-serif;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+.screen { display: none; min-height: 100vh; padding: 1.5rem 1rem 2rem; flex-direction: column; }
+.screen.active { display: flex; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+.home-hero { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:1.5rem; }
+.cake-emoji { font-size:64px; animation:bounce 2s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.home-title { font-family:var(--font-head); font-size:clamp(22px,6vw,32px); font-weight:800; line-height:1.2; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.home-sub { color:var(--muted); font-size:15px; line-height:1.6; max-width:280px; }
+.home-btns { display:flex; flex-direction:column; gap:10px; width:100%; max-width:320px; }
 
-.screen { display: none; min-height: 100vh; padding: 1.5rem 1rem 2rem; }
-.screen.active { display: flex; flex-direction: column; }
+.btn { width:100%; padding:14px 20px; border-radius:var(--radius); border:none; font-family:var(--font-body); font-size:15px; font-weight:700; cursor:pointer; transition:transform 0.15s; text-align:center; }
+.btn:active { transform:scale(0.97); }
+.btn-primary { background:linear-gradient(135deg,var(--accent),#ff4757); color:white; }
+.btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+.btn-gold { background:linear-gradient(135deg,var(--accent2),#ff9f43); color:#1a1000; }
+.btn-blue { background:linear-gradient(135deg,var(--accent3),#4a90e2); color:#001a2a; }
+.btn-outline { background:transparent; color:var(--muted); border:1px solid var(--border); font-size:14px; }
+.btn-host { background:transparent; color:var(--accent3); border:1px solid rgba(107,202,255,0.3); font-size:14px; }
 
-/* ── HOME ── */
-.home-hero {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 1.5rem;
-}
+.top-bar { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; }
+.back-btn { background:var(--surface2); border:1px solid var(--border); color:var(--text); width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer; flex-shrink:0; }
+.screen-title { font-family:var(--font-head); font-size:16px; font-weight:600; }
 
-.cake-emoji { font-size: 64px; animation: bounce 2s ease-in-out infinite; }
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; margin-bottom:1rem; }
+.field-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+input[type=text] { width:100%; padding:12px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; color:var(--text); font-family:var(--font-body); font-size:15px; margin-bottom:1rem; outline:none; transition:border-color 0.2s; }
+input[type=text]:focus { border-color:var(--accent); }
 
-.home-title {
-  font-family: var(--font-head);
-  font-size: clamp(22px, 6vw, 32px);
-  font-weight: 800;
-  line-height: 1.2;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+.progress-wrap { margin-bottom:1.5rem; }
+.progress-meta { display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:8px; }
+.progress-bar-bg { height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
+.progress-bar-fill { height:4px; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width 0.4s ease; }
 
-.home-sub { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 280px; }
+.q-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem 1.25rem; margin-bottom:1rem; }
+.q-text { font-family:var(--font-head); font-size:16px; font-weight:600; line-height:1.4; margin-bottom:1.25rem; }
+.options { display:flex; flex-direction:column; gap:10px; }
+.opt-btn { width:100%; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; color:var(--text); font-family:var(--font-body); font-size:15px; font-weight:600; cursor:pointer; text-align:left; transition:all 0.2s; display:flex; align-items:center; gap:12px; }
+.opt-btn:hover { border-color:rgba(255,255,255,0.2); background:#2a2a3a; }
+.opt-btn.selected { border-color:var(--accent2); background:rgba(255,217,61,0.1); }
+.opt-letter { width:28px; height:28px; border-radius:50%; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; font-family:var(--font-head); font-weight:600; flex-shrink:0; color:var(--muted); }
+.opt-btn.selected .opt-letter { background:rgba(255,217,61,0.2); border-color:var(--accent2); color:var(--accent2); }
 
-.home-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 320px; }
+.waiting-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:1rem; }
+.spinner { width:48px; height:48px; border:3px solid var(--surface2); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
 
-/* ── BUTTONS ── */
-.btn {
-  width: 100%;
-  padding: 14px 20px;
-  border-radius: var(--radius);
-  border: none;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.15s, opacity 0.15s;
-  text-align: center;
-}
-.btn:active { transform: scale(0.97); }
+.done-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:1rem; }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), #ff4757);
-  color: white;
-}
-.btn-secondary {
-  background: var(--surface2);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-.btn-gold {
-  background: linear-gradient(135deg, var(--accent2), #ff9f43);
-  color: #1a1000;
-}
-.btn-blue {
-  background: linear-gradient(135deg, var(--accent3), #4a90e2);
-  color: #001a2a;
-}
-.btn-outline {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  font-size: 14px;
-}
+.tabs { display:flex; gap:6px; margin-bottom:1.25rem; }
+.tab-btn { flex:1; padding:9px; background:var(--surface); border:1px solid var(--border); border-radius:10px; color:var(--muted); font-family:var(--font-body); font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.tab-btn.active { background:var(--surface2); border-color:rgba(255,107,107,0.4); color:var(--accent); }
+.podium-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.podium-row:last-child { border-bottom:none; }
+.rank-badge { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-size:14px; font-weight:800; flex-shrink:0; }
+.rank-1{background:rgba(255,217,61,0.2);color:var(--accent2)} .rank-2{background:rgba(192,192,192,0.2);color:#c0c0c0} .rank-3{background:rgba(205,127,50,0.2);color:#cd7f32} .rank-other{background:var(--surface2);color:var(--muted)}
+.player-info { flex:1; }
+.player-name-r { font-weight:700; font-size:15px; }
+.player-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+.score-pill { background:var(--surface2); border:1px solid var(--border); border-radius:20px; padding:4px 12px; font-family:var(--font-head); font-size:13px; font-weight:600; color:var(--accent2); }
+.detail-q { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; margin-bottom:0.75rem; }
+.detail-q-text { font-weight:700; font-size:14px; margin-bottom:0.75rem; line-height:1.4; }
+.bday-answer { font-size:13px; color:var(--accent2); margin-bottom:0.5rem; display:flex; align-items:center; gap:6px; }
+.guest-answer-row { display:flex; justify-content:space-between; font-size:13px; padding:3px 0; color:var(--muted); }
+.match{color:#4ade80} .nomatch{color:var(--accent)}
 
-/* ── HEADER ── */
-.top-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1.5rem;
-}
-.back-btn {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.screen-title {
-  font-family: var(--font-head);
-  font-size: 16px;
-  font-weight: 600;
-}
+.qr-card { background:var(--surface); border-radius:var(--radius); padding:1.25rem; text-align:center; border:1px solid var(--border); }
+.qr-card.birthday{border-color:rgba(255,217,61,0.4)} .qr-card.guests{border-color:rgba(107,202,255,0.4)}
+.qr-label { font-family:var(--font-head); font-size:13px; font-weight:600; margin-bottom:4px; }
+.qr-label.birthday{color:var(--accent2)} .qr-label.guests{color:var(--accent3)}
+.qr-desc { font-size:12px; color:var(--muted); margin-bottom:1rem; }
+.qr-wrap { display:inline-block; background:white; padding:12px; border-radius:12px; margin-bottom:1rem; }
+.qr-url { font-size:11px; color:var(--muted); word-break:break-all; background:var(--surface2); padding:8px 10px; border-radius:8px; font-family:monospace; }
 
-/* ── CARDS ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-}
+.q-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; margin-bottom:0.75rem; }
+.q-block-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; }
+.q-num { font-family:var(--font-head); font-size:11px; color:var(--accent); font-weight:600; }
+.del-btn { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; line-height:1; padding:0 4px; }
+.opt-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.opt-row input { margin-bottom:0; flex:1; }
+.correct-toggle { width:28px; height:28px; border-radius:50%; border:2px solid var(--border); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+.correct-toggle.on { background:#1a3d1a; border-color:#4ade80; color:#4ade80; }
+.add-q-btn { width:100%; padding:12px; background:transparent; border:1px dashed rgba(255,107,107,0.4); border-radius:var(--radius); color:var(--accent); font-family:var(--font-body); font-size:14px; font-weight:700; cursor:pointer; margin-bottom:1rem; }
 
-/* ── INPUTS ── */
-.field-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-input[type=text] {
-  width: 100%;
-  padding: 12px 14px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 15px;
-  margin-bottom: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-input[type=text]:focus { border-color: var(--accent); }
+.host-q-card { background:var(--surface); border:1px solid rgba(107,202,255,0.25); border-radius:var(--radius); padding:2rem 1.5rem; flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.5rem; }
+.host-q-num { font-family:var(--font-head); font-size:11px; color:var(--accent3); letter-spacing:0.12em; text-transform:uppercase; }
+.host-q-text { font-family:var(--font-head); font-size:clamp(18px,5vw,26px); font-weight:700; line-height:1.35; }
+.host-options { display:flex; flex-direction:column; gap:10px; }
+.host-opt { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; font-size:15px; font-weight:600; }
+.host-opt-letter { width:28px; height:28px; border-radius:50%; background:rgba(107,202,255,0.1); border:1px solid rgba(107,202,255,0.3); color:var(--accent3); font-family:var(--font-head); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.host-nav { display:flex; gap:10px; align-items:center; margin-top:0.5rem; }
+.host-counter { flex:1; text-align:center; font-size:13px; color:var(--muted); }
+.finished-list { display:flex; flex-wrap:wrap; gap:8px; margin:1rem 0; }
+.finished-chip { background:var(--surface2); border:1px solid var(--border); border-radius:20px; padding:7px 16px; font-size:14px; font-weight:600; }
 
-/* ── QR SCREEN ── */
-.qr-grid { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
-.qr-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  text-align: center;
-  border: 1px solid var(--border);
-}
-.qr-card.birthday { border-color: rgba(255,217,61,0.4); }
-.qr-card.guests { border-color: rgba(107,202,255,0.4); }
-.qr-label {
-  font-family: var(--font-head);
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.qr-label.birthday { color: var(--accent2); }
-.qr-label.guests { color: var(--accent3); }
-.qr-desc { font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
-.qr-wrap {
-  display: inline-block;
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-}
-.qr-url {
-  font-size: 11px;
-  color: var(--muted);
-  word-break: break-all;
-  background: var(--surface2);
-  padding: 8px 10px;
-  border-radius: 8px;
-  font-family: monospace;
-}
+.player-count { font-family:var(--font-head); font-size:40px; font-weight:800; color:var(--accent2); }
+.live-players { display:flex; flex-wrap:wrap; gap:8px; margin-top:1rem; }
+.live-chip { background:var(--surface2); border:1px solid var(--border); border-radius:20px; padding:6px 14px; font-size:13px; font-weight:600; }
+.live-chip.done { border-color:#4ade80; color:#4ade80; background:rgba(74,222,128,0.1); }
 
-/* ── QUESTION EDITOR ── */
-.q-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-}
-.q-block-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-.q-num {
-  font-family: var(--font-head);
-  font-size: 11px;
-  color: var(--accent);
-  font-weight: 600;
-}
-.del-btn {
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 20px;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0 4px;
-}
-.opt-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-.opt-row input { margin-bottom: 0; flex: 1; }
-.correct-toggle {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  font-size: 12px;
-  cursor: pointer;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.correct-toggle.on {
-  background: #1a3d1a;
-  border-color: #4ade80;
-  color: #4ade80;
-}
-.add-q-btn {
-  width: 100%;
-  padding: 12px;
-  background: transparent;
-  border: 1px dashed rgba(255,107,107,0.4);
-  border-radius: var(--radius);
-  color: var(--accent);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
-
-/* ── PROGRESS ── */
-.progress-wrap { margin-bottom: 1.5rem; }
-.progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-.progress-bar-bg {
-  height: 4px;
-  background: var(--surface2);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-bar-fill {
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 2px;
-  transition: width 0.4s ease;
-}
-
-/* ── QUIZ ── */
-.q-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem 1.25rem;
-  margin-bottom: 1rem;
-}
-.q-text {
-  font-family: var(--font-head);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 1.25rem;
-}
-.options { display: flex; flex-direction: column; gap: 10px; }
-.opt-btn {
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.opt-btn:hover { border-color: rgba(255,255,255,0.2); background: #2a2a3a; }
-.opt-btn.selected { border-color: var(--accent2); background: rgba(255,217,61,0.1); }
-.opt-btn.correct { border-color: #4ade80; background: rgba(74,222,128,0.1); color: #4ade80; }
-.opt-btn.wrong { border-color: var(--accent); background: rgba(255,107,107,0.1); color: var(--accent); }
-.opt-letter {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
-  font-family: var(--font-head);
-  font-weight: 600;
-  flex-shrink: 0;
-  color: var(--muted);
-}
-.opt-btn.correct .opt-letter { background: rgba(74,222,128,0.2); border-color: #4ade80; color: #4ade80; }
-.opt-btn.wrong .opt-letter { background: rgba(255,107,107,0.2); border-color: var(--accent); color: var(--accent); }
-.opt-btn.selected .opt-letter { background: rgba(255,217,61,0.2); border-color: var(--accent2); color: var(--accent2); }
-
-/* ── WAITING ── */
-.waiting-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 1rem;
-}
-.spinner {
-  width: 48px; height: 48px;
-  border: 3px solid var(--surface2);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.player-count {
-  font-family: var(--font-head);
-  font-size: 40px;
-  font-weight: 800;
-  color: var(--accent2);
-}
-
-/* ── RESULTS ── */
-.podium-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.podium-row:last-child { border-bottom: none; }
-.rank-badge {
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head);
-  font-size: 14px;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-.rank-1 { background: rgba(255,217,61,0.2); color: var(--accent2); }
-.rank-2 { background: rgba(192,192,192,0.2); color: #c0c0c0; }
-.rank-3 { background: rgba(205,127,50,0.2); color: #cd7f32; }
-.rank-other { background: var(--surface2); color: var(--muted); }
-.player-info { flex: 1; }
-.player-name-r { font-weight: 700; font-size: 15px; }
-.player-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.score-pill {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-family: var(--font-head);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent2);
-}
-
-/* ── DETAIL ── */
-.detail-q {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-}
-.detail-q-text { font-weight: 700; font-size: 14px; margin-bottom: 0.75rem; line-height: 1.4; }
-.bday-answer {
-  font-size: 13px;
-  color: var(--accent2);
-  margin-bottom: 0.5rem;
-  display: flex; align-items: center; gap: 6px;
-}
-.guest-answer-row {
-  display: flex; justify-content: space-between;
-  font-size: 13px;
-  padding: 3px 0;
-  color: var(--muted);
-}
-.match { color: #4ade80; }
-.nomatch { color: var(--accent); }
-
-/* ── TABS ── */
-.tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; }
-.tab-btn {
-  flex: 1; padding: 9px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--muted);
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.tab-btn.active {
-  background: var(--surface2);
-  border-color: rgba(255,107,107,0.4);
-  color: var(--accent);
-}
-
-/* ── DONE ── */
-.done-wrap {
-  flex: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center; gap: 1rem;
-}
-.score-display {
-  font-family: var(--font-head);
-  font-size: 56px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent2), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.score-sub { color: var(--muted); font-size: 14px; }
-
-/* ── NOTIFY ── */
-#notify {
-  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-size: 14px;
-  white-space: nowrap;
-  transition: transform 0.3s ease;
-  z-index: 999;
-  pointer-events: none;
-}
-#notify.show { transform: translateX(-50%) translateY(0); }
-
-/* ── LIVE PLAYERS ── */
-.live-players { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
-.live-chip {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 600;
-}
-.live-chip.done { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.1); }
-
-.setup-steps { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
-
-/* ── HOST MODE ── */
-.host-q-card {
-  background: var(--surface);
-  border: 1px solid rgba(107,202,255,0.25);
-  border-radius: var(--radius);
-  padding: 2rem 1.5rem;
-  text-align: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
-}
-.host-q-num {
-  font-family: var(--font-head);
-  font-size: 11px;
-  color: var(--accent3);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.host-q-text {
-  font-family: var(--font-head);
-  font-size: clamp(18px, 5vw, 26px);
-  font-weight: 700;
-  line-height: 1.35;
-  color: var(--text);
-}
-.host-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
-.host-opt {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-}
-.host-opt-letter {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: rgba(107,202,255,0.1);
-  border: 1px solid rgba(107,202,255,0.3);
-  color: var(--accent3);
-  font-family: var(--font-head);
-  font-size: 12px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.host-nav {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-.host-counter {
-  flex: 1;
-  text-align: center;
-  font-size: 13px;
-  color: var(--muted);
-}
-.finished-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 1rem 0;
-}
-.finished-chip {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 7px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-}
-.step-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  display: flex; gap: 1rem; align-items: flex-start;
-}
-.step-num {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #ff4757);
-  color: white;
-  font-family: var(--font-head);
-  font-size: 14px;
-  font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.step-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-.step-info p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+#notify { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:10px 20px; font-size:14px; white-space:nowrap; transition:transform 0.3s ease; z-index:999; pointer-events:none; }
+#notify.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ══════════ HOME ══════════ -->
+<!-- HOME -->
 <div id="screen-home" class="screen active">
   <div class="home-hero">
     <div class="cake-emoji">🎂</div>
-    <div class="home-title">Викторина<br>про Антона</div>
+    <div class="home-title">Викторина<br>про именинника</div>
     <div class="home-sub">Кто из гостей знает именинника лучше всех?</div>
     <div class="home-btns">
       <button class="btn btn-primary" onclick="go('screen-setup')">⚙️ Создать викторину</button>
-      <button class="btn btn-gold" onclick="go('screen-birthday-entry')">🎁 Я — именинник</button>
+      <button class="btn btn-gold" onclick="go('screen-birthday-entry')">🎂 Я — именинник</button>
       <button class="btn btn-blue" onclick="go('screen-guest-entry')">👥 Я — гость</button>
-      <button class="btn btn-outline" onclick="go('screen-results-entry')">📊 Результаты викторины</button>
-      <button class="btn btn-outline" onclick="go('screen-host-entry')" style="border-color:rgba(107,202,255,0.3);color:#6bcaff">🎤 Режим ведущего</button>
+      <button class="btn btn-host" onclick="go('screen-host-entry')">🎤 Режим ведущего</button>
+      <button class="btn btn-outline" onclick="go('screen-results-entry')">📊 Результаты</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ RESULTS ENTRY ══════════ -->
-<div id="screen-results-entry" class="screen">
-  <div class="top-bar">
-    <button class="back-btn" onclick="go('screen-home')">←</button>
-    <div class="screen-title">Результаты</div>
-  </div>
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
-    <div class="card">
-      <div class="field-label">ID викторины</div>
-      <input type="text" id="results-quiz-id" placeholder="Например: anton2025" />
-      <button class="btn btn-primary" onclick="loadResults()">Смотреть результаты →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ SETUP ══════════ -->
+<!-- SETUP -->
 <div id="screen-setup" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -627,11 +156,10 @@ input[type=text]:focus { border-color: var(--accent); }
   <div class="card">
     <div class="field-label">Имя именинника</div>
     <input type="text" id="setup-name" placeholder="Например: Антон" />
-    <div class="field-label">ID викторины (придумайте)</div>
+    <div class="field-label">ID викторины</div>
     <input type="text" id="setup-id" placeholder="Например: anton2025" />
     <div style="font-size:12px;color:var(--muted);margin-top:-0.75rem;margin-bottom:1rem">Только латиница и цифры, без пробелов</div>
   </div>
-
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
     <div class="screen-title">Вопросы</div>
     <button class="btn-outline btn" style="width:auto;padding:7px 14px" onclick="addQ()">+ Добавить</button>
@@ -642,35 +170,35 @@ input[type=text]:focus { border-color: var(--accent); }
   <div style="height:2rem"></div>
 </div>
 
-<!-- ══════════ QR CODES ══════════ -->
+<!-- QR CODES -->
 <div id="screen-qr" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-setup')">←</button>
     <div class="screen-title">QR-коды</div>
   </div>
   <div style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6">
-    Сначала именинник сканирует <span style="color:var(--accent2);font-weight:700">золотой</span> код, затем раздайте гостям <span style="color:var(--accent3);font-weight:700">синий</span> код
+    Все отвечают одновременно. Результаты откроются автоматически, когда именинник ответит на последний вопрос.
   </div>
-  <div class="qr-grid">
+  <div style="display:flex;flex-direction:column;gap:1rem">
     <div class="qr-card birthday">
       <div class="qr-label birthday">🎂 Для именинника</div>
-      <div class="qr-desc">Сканирует только именинник — его ответы станут эталоном</div>
+      <div class="qr-desc">Его ответы станут эталоном</div>
       <div class="qr-wrap" id="qr-birthday"></div>
       <div class="qr-url" id="url-birthday"></div>
     </div>
     <div class="qr-card guests">
       <div class="qr-label guests">👥 Для гостей</div>
-      <div class="qr-desc">Раздайте этот QR-код всем гостям</div>
+      <div class="qr-desc">Раздайте всем гостям</div>
       <div class="qr-wrap" id="qr-guests"></div>
       <div class="qr-url" id="url-guests"></div>
     </div>
   </div>
   <div style="height:1rem"></div>
-  <button class="btn btn-secondary" onclick="go('screen-lobby')">Открыть лобби (следить за гостями) →</button>
+  <button class="btn btn-secondary" onclick="go('screen-lobby')" style="margin-top:0.5rem">Лобби →</button>
   <div style="height:1rem"></div>
 </div>
 
-<!-- ══════════ LOBBY ══════════ -->
+<!-- LOBBY -->
 <div id="screen-lobby" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-qr')">←</button>
@@ -687,7 +215,7 @@ input[type=text]:focus { border-color: var(--accent); }
   <button class="btn btn-primary" style="margin-top:1.5rem" onclick="go('screen-results')">Смотреть результаты →</button>
 </div>
 
-<!-- ══════════ BIRTHDAY ENTRY ══════════ -->
+<!-- BIRTHDAY ENTRY -->
 <div id="screen-birthday-entry" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -697,12 +225,12 @@ input[type=text]:focus { border-color: var(--accent); }
     <div class="card">
       <div class="field-label">ID викторины</div>
       <input type="text" id="bday-quiz-id" placeholder="Например: anton2025" />
-      <button class="btn btn-gold" onclick="joinAsBirthday()">Отвечать первым 🎂</button>
+      <button class="btn btn-gold" onclick="joinAsBirthday()">Войти и отвечать 🎂</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ GUEST ENTRY ══════════ -->
+<!-- GUEST ENTRY -->
 <div id="screen-guest-entry" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -719,16 +247,7 @@ input[type=text]:focus { border-color: var(--accent); }
   </div>
 </div>
 
-<!-- ══════════ WAITING FOR BIRTHDAY ══════════ -->
-<div id="screen-waiting" class="screen">
-  <div class="waiting-wrap">
-    <div class="spinner"></div>
-    <div style="font-family:var(--font-head);font-size:18px;font-weight:600">Ждём именинника...</div>
-    <div style="color:var(--muted);font-size:14px;max-width:260px;line-height:1.6">Викторина начнётся, как только именинник ответит на все вопросы</div>
-  </div>
-</div>
-
-<!-- ══════════ QUIZ ══════════ -->
+<!-- QUIZ -->
 <div id="screen-quiz" class="screen">
   <div class="progress-wrap">
     <div class="progress-meta">
@@ -744,22 +263,33 @@ input[type=text]:focus { border-color: var(--accent); }
   <button class="btn btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Следующий →</button>
 </div>
 
-<!-- ══════════ QUIZ DONE ══════════ -->
-<div id="screen-done" class="screen">
-  <div class="done-wrap">
-    <div style="font-size:48px" id="done-emoji">🎉</div>
-    <div style="font-family:var(--font-head);font-size:20px;font-weight:700" id="done-title">Готово!</div>
-    <div class="score-display" id="done-score">—</div>
-    <div class="score-sub" id="done-sub">совпадений с именинником</div>
-    <div style="color:var(--muted);font-size:14px;max-width:260px;line-height:1.6" id="done-msg"></div>
-    <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin-top:1rem">
-      <button class="btn btn-primary" onclick="go('screen-results')">Таблица результатов →</button>
-      <button class="btn btn-outline" onclick="go('screen-guest-entry')">Следующий гость</button>
+<!-- WAITING FOR BIRTHDAY (guest finished early) -->
+<div id="screen-waiting-results" class="screen">
+  <div class="waiting-wrap">
+    <div style="font-size:48px;margin-bottom:0.5rem">⏳</div>
+    <div style="font-family:var(--font-head);font-size:18px;font-weight:600">Ответы сохранены!</div>
+    <div style="color:var(--muted);font-size:14px;max-width:260px;line-height:1.6;margin-top:0.5rem">
+      Результаты покажет ведущий — ждите на этом экране
     </div>
+    <div class="spinner" style="margin-top:1.5rem"></div>
   </div>
 </div>
 
-<!-- ══════════ RESULTS ══════════ -->
+<!-- DONE (birthday person) -->
+<div id="screen-done-birthday" class="screen">
+  <div class="done-wrap">
+    <div style="font-size:56px">🎂</div>
+    <div style="font-family:var(--font-head);font-size:20px;font-weight:700">Готово!</div>
+    <div style="color:var(--muted);font-size:14px;max-width:260px;line-height:1.6">
+      Ваши ответы сохранены как эталон. Ведущий покажет результаты всем в нужный момент.
+    </div>
+    <button class="btn btn-primary" style="margin-top:1rem;max-width:320px;width:100%" onclick="go('screen-results')">
+      Смотреть свои результаты 🏆
+    </button>
+  </div>
+</div>
+
+<!-- RESULTS -->
 <div id="screen-results" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -773,7 +303,22 @@ input[type=text]:focus { border-color: var(--accent); }
   <div id="tab-content-detail" style="display:none"></div>
 </div>
 
-<!-- ══════════ HOST ENTRY ══════════ -->
+<!-- RESULTS ENTRY -->
+<div id="screen-results-entry" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="go('screen-home')">←</button>
+    <div class="screen-title">Результаты</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div class="card">
+      <div class="field-label">ID викторины</div>
+      <input type="text" id="results-quiz-id" placeholder="Например: anton2025" />
+      <button class="btn btn-primary" onclick="loadResults()">Смотреть результаты →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOST ENTRY -->
 <div id="screen-host-entry" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -783,18 +328,18 @@ input[type=text]:focus { border-color: var(--accent); }
     <div class="card">
       <div class="field-label">ID викторины</div>
       <input type="text" id="host-quiz-id" placeholder="Например: anton2025" />
-      <button class="btn" style="background:linear-gradient(135deg,var(--accent3),#4a90e2);color:#001a2a;font-weight:700;padding:14px;border-radius:var(--radius);border:none;font-size:15px;cursor:pointer" onclick="startHostMode()">Открыть на большом экране →</button>
+      <button class="btn btn-host" onclick="startHostMode()">Открыть на большом экране →</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ HOST QUIZ SCREEN ══════════ -->
+<!-- HOST QUIZ -->
 <div id="screen-host-quiz" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
     <div class="screen-title" id="host-title">Викторина</div>
   </div>
-  <div class="host-q-card" id="host-q-card">
+  <div class="host-q-card">
     <div class="host-q-num" id="host-q-num">ВОПРОС 1 ИЗ 15</div>
     <div class="host-q-text" id="host-q-text">Загрузка...</div>
     <div class="host-options" id="host-options"></div>
@@ -802,11 +347,11 @@ input[type=text]:focus { border-color: var(--accent); }
   <div class="host-nav">
     <button class="btn btn-outline" id="host-prev-btn" onclick="hostPrev()" style="width:auto;padding:10px 20px">← Назад</button>
     <div class="host-counter" id="host-counter">1 / 15</div>
-    <button class="btn" id="host-next-btn" onclick="hostNext()" style="background:linear-gradient(135deg,var(--accent3),#4a90e2);color:#001a2a;font-weight:700;padding:10px 20px;border-radius:12px;border:none;font-size:14px;cursor:pointer;width:auto">Далее →</button>
+    <button class="btn btn-host" id="host-next-btn" onclick="hostNext()" style="width:auto;padding:10px 20px">Далее →</button>
   </div>
 </div>
 
-<!-- ══════════ HOST FINAL SCREEN ══════════ -->
+<!-- HOST FINAL -->
 <div id="screen-host-final" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="go('screen-home')">←</button>
@@ -815,26 +360,22 @@ input[type=text]:focus { border-color: var(--accent); }
   <div class="card" style="text-align:center">
     <div style="font-size:32px;margin-bottom:0.5rem">🎉</div>
     <div style="font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:4px">Все вопросы показаны!</div>
-    <div style="font-size:13px;color:var(--muted)">Дождитесь пока все гости ответят</div>
+    <div style="font-size:13px;color:var(--muted)" id="host-final-status">Дождитесь пока именинник ответит</div>
   </div>
-
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
     <div style="font-size:14px;font-weight:700">Уже ответили:</div>
     <button class="btn btn-outline" style="width:auto;padding:7px 16px;font-size:13px" onclick="refreshFinished()">🔄 Обновить</button>
   </div>
-  <div class="finished-list" id="finished-list">
-    <div style="color:var(--muted);font-size:13px">Загрузка...</div>
-  </div>
-
+  <div class="finished-list" id="finished-list"></div>
   <div style="flex:1"></div>
-  <button class="btn btn-primary" style="margin-top:1rem" onclick="hostShowResults()">🏆 Показать результаты</button>
+  <button class="btn btn-primary" style="margin-top:1rem" onclick="hostUnlockResults()">🏆 Показать результаты всем</button>
 </div>
 
 <div id="notify"></div>
 
 <script>
 const firebaseConfig = {
-apiKey: "AIzaSyBbpBO4n0QebSHrhyGIqTgwqO9084sLOqo",
+  apiKey: "AIzaSyBbpBO4n0QebSHrhyGIqTgwqO9084sLOqo",
   authDomain: "birthday-quiz-7344b.firebaseapp.com",
   databaseURL: "https://birthday-quiz-7344b-default-rtdb.firebaseio.com",
   projectId: "birthday-quiz-7344b",
@@ -845,14 +386,18 @@ apiKey: "AIzaSyBbpBO4n0QebSHrhyGIqTgwqO9084sLOqo",
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-
-
 let editQ = JSON.parse(JSON.stringify(DEFAULT_Q));
-let session = { quizId: null, isBirthday: false, playerName: null, currentQ: 0, answers: [], quiz: null };
-let lobbyUnsub = null, waitUnsub = null;
+let session = {
+  quizId: null, isBirthday: false, playerName: null,
+  currentQ: 0, answers: [], pendingAnswer: undefined, quiz: null
+};
+let hostSession = { quiz: null, quizId: null, currentQ: 0 };
+let activeListeners = [];
 
-// ── NAVIGATION ──
+// ── UTILS ──
 function go(id) {
+  activeListeners.forEach(fn => fn());
+  activeListeners = [];
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'screen-setup') renderEditor();
@@ -867,12 +412,11 @@ function notify(msg) {
   setTimeout(() => el.classList.remove('show'), 2500);
 }
 
+function esc(s) { return String(s).replace(/"/g, '&quot;'); }
+
 // ── URL PARAMS ──
-function getParams() {
-  return Object.fromEntries(new URLSearchParams(window.location.search));
-}
 window.addEventListener('DOMContentLoaded', () => {
-  const p = getParams();
+  const p = Object.fromEntries(new URLSearchParams(window.location.search));
   if (p.quiz && p.role === 'birthday') {
     document.getElementById('bday-quiz-id').value = p.quiz;
     go('screen-birthday-entry');
@@ -891,87 +435,66 @@ function renderEditor() {
         <span class="q-num">ВОПРОС ${qi+1}</span>
         <button class="del-btn" onclick="delQ(${qi})">×</button>
       </div>
-      <input type="text" placeholder="Текст вопроса" value="${esc(q.text)}"
-        onchange="editQ[${qi}].text=this.value" />
+      <input type="text" placeholder="Текст вопроса" value="${esc(q.text)}" onchange="editQ[${qi}].text=this.value" />
       ${q.options.map((o, oi) => `
         <div class="opt-row">
-          <button class="correct-toggle ${q.correct===oi?'on':''}"
-            onclick="setC(${qi},${oi})">${q.correct===oi?'✓':''}</button>
-          <input type="text" placeholder="Вариант ${oi+1}" value="${esc(o)}"
-            onchange="editQ[${qi}].options[${oi}]=this.value" />
+          <button class="correct-toggle ${q.correct===oi?'on':''}" onclick="setC(${qi},${oi})">${q.correct===oi?'✓':''}</button>
+          <input type="text" placeholder="Вариант ${oi+1}" value="${esc(o)}" onchange="editQ[${qi}].options[${oi}]=this.value" />
         </div>`).join('')}
     </div>`).join('');
 }
-
-function esc(s) { return s.replace(/"/g,'&quot;'); }
 function setC(qi, oi) { editQ[qi].correct = oi; renderEditor(); }
-function delQ(qi) { editQ.splice(qi,1); renderEditor(); }
+function delQ(qi) { editQ.splice(qi, 1); renderEditor(); }
 function addQ() {
   editQ.push({text:'Новый вопрос',options:['Вариант 1','Вариант 2','Вариант 3','Вариант 4'],correct:0});
   renderEditor();
-  setTimeout(() => document.getElementById('q-editor').lastChild?.scrollIntoView({behavior:'smooth'}),100);
+  setTimeout(() => document.getElementById('q-editor').lastChild?.scrollIntoView({behavior:'smooth'}), 100);
 }
 
 // ── SAVE QUIZ ──
 async function saveQuiz() {
   const name = document.getElementById('setup-name').value.trim();
-  const id = document.getElementById('setup-id').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  const id = document.getElementById('setup-id').value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
   if (!name || !id) { notify('Заполните имя и ID'); return; }
   if (editQ.length < 3) { notify('Добавьте хотя бы 3 вопроса'); return; }
-
   try {
-    await db.ref(`quizzes/${id}`).set({
-      name, id,
-      questions: editQ,
-      createdAt: Date.now(),
-      birthdayDone: false
-    });
+    await db.ref(`quizzes/${id}`).set({ name, id, questions: editQ, createdAt: Date.now(), birthdayDone: false });
     session.quizId = id;
-    generateQRCodes(id);
+    generateQRs(id);
     go('screen-qr');
     notify('Викторина сохранена!');
-  } catch(e) {
-    notify('Ошибка: ' + e.message);
-  }
+  } catch(e) { notify('Ошибка: ' + e.message); }
 }
 
 // ── QR CODES ──
-function generateQRCodes(quizId) {
+function generateQRs(quizId) {
   const base = window.location.href.split('?')[0];
-  const urlBday = `${base}?quiz=${quizId}&role=birthday`;
-  const urlGuest = `${base}?quiz=${quizId}&role=guest`;
-
-  document.getElementById('url-birthday').textContent = urlBday;
-  document.getElementById('url-guests').textContent = urlGuest;
-
+  const urlB = `${base}?quiz=${quizId}&role=birthday`;
+  const urlG = `${base}?quiz=${quizId}&role=guest`;
+  document.getElementById('url-birthday').textContent = urlB;
+  document.getElementById('url-guests').textContent = urlG;
   document.getElementById('qr-birthday').innerHTML = '';
   document.getElementById('qr-guests').innerHTML = '';
-
-  new QRCode(document.getElementById('qr-birthday'), { text: urlBday, width: 160, height: 160, colorDark:'#000', colorLight:'#fff', correctLevel: QRCode.CorrectLevel.M });
-  new QRCode(document.getElementById('qr-guests'), { text: urlGuest, width: 160, height: 160, colorDark:'#000', colorLight:'#fff', correctLevel: QRCode.CorrectLevel.M });
+  new QRCode(document.getElementById('qr-birthday'), {text:urlB,width:160,height:160,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+  new QRCode(document.getElementById('qr-guests'), {text:urlG,width:160,height:160,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
 }
 
-// ── LOBBY WATCH ──
+// ── LOBBY ──
 function startLobbyWatch() {
   if (!session.quizId) return;
-  if (lobbyUnsub) lobbyUnsub();
   const ref = db.ref(`sessions/${session.quizId}`);
-  ref.on('value', snap => {
+  const handler = snap => {
     const data = snap.val() || {};
     const players = Object.values(data);
     const guests = players.filter(p => !p.isBirthday);
     const bday = players.find(p => p.isBirthday);
-
     document.getElementById('lobby-count').textContent = guests.length;
-    document.getElementById('bday-status').textContent = bday && bday.done
-      ? '✅ Именинник ответил!' : '⏳ Именинник ещё не ответил';
-
-    const lp = document.getElementById('lobby-players');
-    lp.innerHTML = guests.map(p => `
-      <div class="live-chip ${p.done?'done':''}">${p.name} ${p.done?'✓':''}</div>
-    `).join('');
-  });
-  lobbyUnsub = () => ref.off();
+    document.getElementById('bday-status').textContent = bday && bday.done ? '✅ Именинник ответил!' : '⏳ Именинник ещё не ответил';
+    document.getElementById('lobby-players').innerHTML = guests.map(p =>
+      `<div class="live-chip ${p.done?'done':''}">${p.name}${p.done?' ✓':''}</div>`).join('');
+  };
+  ref.on('value', handler);
+  activeListeners.push(() => ref.off('value', handler));
 }
 
 // ── JOIN AS BIRTHDAY ──
@@ -987,6 +510,7 @@ async function joinAsBirthday() {
     session.playerName = session.quiz.name;
     session.currentQ = 0;
     session.answers = [];
+    session.pendingAnswer = undefined;
     startQuiz();
   } catch(e) { notify('Ошибка: ' + e.message); }
 }
@@ -1006,33 +530,12 @@ async function joinAsGuest() {
     session.playerName = name;
     session.currentQ = 0;
     session.answers = [];
-
-    // Check if birthday person has answered
-    const bdaySnap = await db.ref(`sessions/${id}/birthday`).get();
-    if (!bdaySnap.exists() || !bdaySnap.val().done) {
-      // Wait for birthday person
-      go('screen-waiting');
-      waitForBirthday(id, name);
-    } else {
-      startQuiz();
-    }
+    session.pendingAnswer = undefined;
+    startQuiz();
   } catch(e) { notify('Ошибка: ' + e.message); }
 }
 
-function waitForBirthday(id, name) {
-  if (waitUnsub) waitUnsub();
-  const ref = db.ref(`sessions/${id}/birthday`);
-  const handler = snap => {
-    if (snap.val() && snap.val().done) {
-      ref.off('value', handler);
-      startQuiz();
-    }
-  };
-  ref.on('value', handler);
-  waitUnsub = () => ref.off('value', handler);
-}
-
-// ── START QUIZ ──
+// ── QUIZ ──
 function startQuiz() {
   go('screen-quiz');
   renderQ();
@@ -1041,12 +544,13 @@ function startQuiz() {
 function renderQ() {
   const q = session.quiz.questions[session.currentQ];
   const total = session.quiz.questions.length;
-  document.getElementById('q-label').textContent = `Вопрос ${session.currentQ + 1}`;
+  const letters = ['А','Б','В','Г'];
+  document.getElementById('q-label').textContent = `Вопрос ${session.currentQ+1}`;
   document.getElementById('q-of').textContent = `из ${total}`;
   document.getElementById('q-bar').style.width = `${(session.currentQ/total)*100}%`;
   document.getElementById('q-text').textContent = q.text;
   document.getElementById('next-btn').style.display = 'none';
-  const letters = ['А','Б','В','Г'];
+  session.pendingAnswer = undefined;
   const list = document.getElementById('options-list');
   list.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -1059,16 +563,12 @@ function renderQ() {
 }
 
 function selectAnswer(idx) {
-  const btns = document.querySelectorAll('.opt-btn');
-  btns.forEach(b => b.classList.remove('selected'));
-  btns[idx].classList.add('selected');
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.opt-btn')[idx].classList.add('selected');
   session.pendingAnswer = idx;
   document.getElementById('next-btn').style.display = 'block';
-  if (session.currentQ === session.quiz.questions.length - 1) {
-    document.getElementById('next-btn').textContent = 'Завершить 🎉';
-  } else {
-    document.getElementById('next-btn').textContent = 'Следующий →';
-  }
+  document.getElementById('next-btn').textContent =
+    session.currentQ === session.quiz.questions.length - 1 ? 'Завершить 🎉' : 'Следующий →';
 }
 
 function nextQ() {
@@ -1083,12 +583,10 @@ function nextQ() {
   }
 }
 
-
-
+// ── FINISH ──
 async function finishQuiz() {
-  const total = session.quiz.questions.length;
-
   if (session.isBirthday) {
+    // Birthday answers saved — this unlocks results for all waiting guests
     await db.ref(`sessions/${session.quizId}/birthday`).set({
       name: session.playerName,
       answers: session.answers,
@@ -1096,41 +594,37 @@ async function finishQuiz() {
       done: true,
       finishedAt: Date.now()
     });
-    document.getElementById('done-emoji').textContent = '🎂';
-    document.getElementById('done-title').textContent = `Спасибо, ${session.playerName}!`;
-    document.getElementById('done-score').textContent = '🎉';
-    document.getElementById('done-sub').textContent = 'Эталонные ответы сохранены';
-    document.getElementById('done-msg').textContent = 'Теперь гости будут угадывать ваши ответы. Передайте телефон!';
-    go('screen-done');
+    await db.ref(`quizzes/${session.quizId}/birthdayDone`).set(true);
+    go('screen-done-birthday');
+
   } else {
-    // Calculate score against birthday answers
-    let bdayAnswers = [];
-    try {
-      const snap = await db.ref(`sessions/${session.quizId}/birthday`).get();
-      if (snap.exists()) bdayAnswers = snap.val().answers || [];
-    } catch(e) {}
-
-    const score = bdayAnswers.length > 0
-      ? session.answers.filter((a,i) => a === bdayAnswers[i]).length
-      : 0;
-
-    const playerId = 'player_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
+    // Save guest — no score yet, computed at results render time
+    const playerId = 'player_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
     await db.ref(`sessions/${session.quizId}/${playerId}`).set({
       name: session.playerName,
       answers: session.answers,
-      score,
       isBirthday: false,
       done: true,
       finishedAt: Date.now()
     });
 
-    document.getElementById('done-emoji').textContent = score >= total*0.8 ? '🏆' : score >= total*0.5 ? '🎉' : '😅';
-    document.getElementById('done-title').textContent = session.playerName + ', готово!';
-    document.getElementById('done-score').textContent = `${score}/${total}`;
-    document.getElementById('done-sub').textContent = `совпадений с ${session.quiz.name}`;
-    document.getElementById('done-msg').textContent = 'Передайте телефон следующему гостю';
-    go('screen-done');
+    // Always show waiting screen — host opens results manually
+    go('screen-waiting-results');
+    watchForResultsUnlock();
   }
+}
+
+// ── WATCH FOR RESULTS UNLOCK (host triggers this) ──
+function watchForResultsUnlock() {
+  const ref = db.ref(`quizzes/${session.quizId}/resultsUnlocked`);
+  const handler = snap => {
+    if (snap.val() === true) {
+      ref.off('value', handler);
+      go('screen-results');
+    }
+  };
+  ref.on('value', handler);
+  activeListeners.push(() => ref.off('value', handler));
 }
 
 // ── RESULTS ──
@@ -1148,56 +642,67 @@ async function loadResults() {
 
 async function renderResults() {
   if (!session.quizId) {
-    document.getElementById('tab-content-scores').innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem">Сначала создайте викторину</p>';
+    document.getElementById('tab-content-scores').innerHTML =
+      '<p style="color:var(--muted);text-align:center;padding:2rem">Сначала войдите в викторину</p>';
     return;
   }
+  if (!session.quiz) {
+    const snap = await db.ref(`quizzes/${session.quizId}`).get();
+    if (snap.exists()) session.quiz = snap.val();
+  }
+
   const snap = await db.ref(`sessions/${session.quizId}`).get();
   const data = snap.val() || {};
   const bday = data.birthday;
   const guests = Object.values(data).filter(p => !p.isBirthday && p.done);
-  const sorted = [...guests].sort((a,b) => b.score - a.score);
   const total = session.quiz?.questions?.length || '?';
+
+  if (!bday || !bday.done) {
+    document.getElementById('tab-content-scores').innerHTML = `
+      <div class="card" style="text-align:center">
+        <div style="font-size:40px;margin-bottom:0.75rem">⏳</div>
+        <div style="font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:0.5rem">Ждём именинника</div>
+        <div style="font-size:13px;color:var(--muted)">Результаты появятся как только ${session.quiz?.name||'именинник'} ответит на все вопросы</div>
+      </div>`;
+    document.getElementById('tab-content-detail').innerHTML = '';
+    return;
+  }
+
+  // Score guests against birthday answers
+  const scored = guests.map(p => ({
+    ...p,
+    score: p.answers.filter((a, i) => a === bday.answers[i]).length
+  })).sort((a, b) => b.score - a.score);
+
   const medals = ['🥇','🥈','🥉'];
   const rankClasses = ['rank-1','rank-2','rank-3'];
 
-  // Scores tab
-  if (sorted.length === 0) {
-    document.getElementById('tab-content-scores').innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem">Гости ещё не ответили</p>';
-  } else {
-    document.getElementById('tab-content-scores').innerHTML = `
-      <div class="card">
-        ${sorted.map((p,i) => `
-          <div class="podium-row">
-            <div class="rank-badge ${rankClasses[i]||'rank-other'}">${medals[i]||i+1}</div>
-            <div class="player-info">
-              <div class="player-name-r">${p.name}</div>
-              <div class="player-sub">${p.score} из ${total} совпадений</div>
-            </div>
-            <div class="score-pill">${p.score}/${total}</div>
-          </div>`).join('')}
-      </div>`;
-  }
+  document.getElementById('tab-content-scores').innerHTML = scored.length === 0
+    ? '<p style="color:var(--muted);text-align:center;padding:2rem">Гости ещё не ответили</p>'
+    : `<div class="card">${scored.map((p, i) => `
+        <div class="podium-row">
+          <div class="rank-badge ${rankClasses[i]||'rank-other'}">${medals[i]||i+1}</div>
+          <div class="player-info">
+            <div class="player-name-r">${p.name}</div>
+            <div class="player-sub">${p.score} из ${total} совпадений</div>
+          </div>
+          <div class="score-pill">${p.score}/${total}</div>
+        </div>`).join('')}</div>`;
 
-  // Detail tab
-  if (!bday || !session.quiz) {
-    document.getElementById('tab-content-detail').innerHTML = '<p style="color:var(--muted);text-align:center;padding:2rem">Именинник ещё не ответил</p>';
-    return;
-  }
-  document.getElementById('tab-content-detail').innerHTML = session.quiz.questions.map((q,qi) => {
+  document.getElementById('tab-content-detail').innerHTML = session.quiz.questions.map((q, qi) => {
     const bdayAns = bday.answers[qi];
-    return `
-      <div class="detail-q">
-        <div class="detail-q-text">${qi+1}. ${q.text}</div>
-        <div class="bday-answer">🎂 ${session.quiz.name}: <strong>${q.options[bdayAns]}</strong></div>
-        ${sorted.map(p => {
-          const pa = p.answers[qi];
-          const ok = pa === bdayAns;
-          return `<div class="guest-answer-row">
-            <span>${p.name}</span>
-            <span class="${ok?'match':'nomatch'}">${q.options[pa]} ${ok?'✓':'✗'}</span>
-          </div>`;
-        }).join('')}
-      </div>`;
+    return `<div class="detail-q">
+      <div class="detail-q-text">${qi+1}. ${q.text}</div>
+      <div class="bday-answer">🎂 ${session.quiz.name}: <strong>${q.options[bdayAns]}</strong></div>
+      ${scored.map(p => {
+        const pa = p.answers[qi];
+        const ok = pa === bdayAns;
+        return `<div class="guest-answer-row">
+          <span>${p.name}</span>
+          <span class="${ok?'match':'nomatch'}">${q.options[pa]} ${ok?'✓':'✗'}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
   }).join('');
 }
 
@@ -1210,18 +715,15 @@ function switchTab(t) {
 }
 
 // ── HOST MODE ──
-let hostSession = { quiz: null, quizId: null, currentQ: 0 };
-
 async function startHostMode() {
   const id = document.getElementById('host-quiz-id').value.trim().toLowerCase();
-  if (!id) { notify('Введите ID викторины'); return; }
+  if (!id) { notify('Введите ID'); return; }
   try {
     const snap = await db.ref(`quizzes/${id}`).get();
     if (!snap.exists()) { notify('Викторина не найдена'); return; }
     hostSession.quiz = snap.val();
     hostSession.quizId = id;
     hostSession.currentQ = 0;
-    // Also set session.quizId for results
     session.quizId = id;
     session.quiz = snap.val();
     renderHostQ();
@@ -1233,47 +735,28 @@ function renderHostQ() {
   const q = hostSession.quiz.questions[hostSession.currentQ];
   const total = hostSession.quiz.questions.length;
   const letters = ['А','Б','В','Г'];
-
   document.getElementById('host-title').textContent = hostSession.quiz.name;
-  document.getElementById('host-q-num').textContent = `ВОПРОС ${hostSession.currentQ + 1} ИЗ ${total}`;
+  document.getElementById('host-q-num').textContent = `ВОПРОС ${hostSession.currentQ+1} ИЗ ${total}`;
   document.getElementById('host-q-text').textContent = q.text;
-  document.getElementById('host-counter').textContent = `${hostSession.currentQ + 1} / ${total}`;
-
-  document.getElementById('host-options').innerHTML = q.options.map((opt, i) => `
-    <div class="host-opt">
-      <span class="host-opt-letter">${letters[i]}</span>
-      ${opt}
-    </div>`).join('');
-
-  // Prev button
+  document.getElementById('host-counter').textContent = `${hostSession.currentQ+1} / ${total}`;
+  document.getElementById('host-options').innerHTML = q.options.map((opt, i) =>
+    `<div class="host-opt"><span class="host-opt-letter">${letters[i]}</span>${opt}</div>`).join('');
   document.getElementById('host-prev-btn').style.visibility = hostSession.currentQ === 0 ? 'hidden' : 'visible';
-
-  // Next button text
-  const nextBtn = document.getElementById('host-next-btn');
-  if (hostSession.currentQ === total - 1) {
-    nextBtn.textContent = 'Финал 🎉';
-  } else {
-    nextBtn.textContent = 'Далее →';
-  }
+  document.getElementById('host-next-btn').textContent = hostSession.currentQ === total-1 ? 'Финал 🎉' : 'Далее →';
 }
 
 function hostNext() {
-  const total = hostSession.quiz.questions.length;
-  if (hostSession.currentQ < total - 1) {
+  if (hostSession.currentQ < hostSession.quiz.questions.length - 1) {
     hostSession.currentQ++;
     renderHostQ();
   } else {
-    // Go to final screen
     go('screen-host-final');
     refreshFinished();
   }
 }
 
 function hostPrev() {
-  if (hostSession.currentQ > 0) {
-    hostSession.currentQ--;
-    renderHostQ();
-  }
+  if (hostSession.currentQ > 0) { hostSession.currentQ--; renderHostQ(); }
 }
 
 async function refreshFinished() {
@@ -1282,18 +765,26 @@ async function refreshFinished() {
   try {
     const snap = await db.ref(`sessions/${id}`).get();
     const data = snap.val() || {};
+    const bday = data.birthday;
     const guests = Object.values(data).filter(p => !p.isBirthday && p.done);
-    const el = document.getElementById('finished-list');
-    if (guests.length === 0) {
-      el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Пока никто не ответил</div>';
-    } else {
-      el.innerHTML = guests.map(p => `<div class="finished-chip">${p.name}</div>`).join('');
-    }
+    document.getElementById('host-final-status').textContent = bday && bday.done
+      ? `✅ ${bday.name} уже ответил — результаты открыты!`
+      : `⏳ Ждём именинника...`;
+    document.getElementById('finished-list').innerHTML = guests.length === 0
+      ? '<div style="color:var(--muted);font-size:13px">Пока никто не ответил</div>'
+      : guests.map(p => `<div class="finished-chip">${p.name}</div>`).join('');
   } catch(e) { notify('Ошибка: ' + e.message); }
 }
 
-function hostShowResults() {
-  go('screen-results');
+// ── HOST UNLOCK RESULTS ──
+async function hostUnlockResults() {
+  const id = hostSession.quizId || session.quizId;
+  if (!id) return;
+  try {
+    await db.ref(`quizzes/${id}/resultsUnlocked`).set(true);
+    notify('Результаты открыты для всех!');
+    go('screen-results');
+  } catch(e) { notify('Ошибка: ' + e.message); }
 }
 </script>
 </body>
